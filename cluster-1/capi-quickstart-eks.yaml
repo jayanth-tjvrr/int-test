@@ -2,7 +2,6 @@ apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
   name: capi-quickstart-eks
-  namespace: default
 spec:
   clusterNetwork:
     pods:
@@ -21,8 +20,10 @@ apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: AWSManagedControlPlane
 metadata:
   name: capi-quickstart-eks-control-plane
-  namespace: default
 spec:
+  identityRef:
+    kind: AWSClusterStaticIdentity
+    name: 5293800b5c9a42ae8db88a31cc2898b4-aws-jaya-new
   region: us-west-2
   sshKeyName: jayanth
   version: v1.23.8
@@ -31,7 +32,6 @@ apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
   name: capi-quickstart-eks-md-0
-  namespace: default
 spec:
   clusterName: capi-quickstart-eks
   replicas: 3
@@ -55,7 +55,6 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
 metadata:
   name: capi-quickstart-eks-md-0
-  namespace: default
 spec:
   template:
     spec:
@@ -67,6 +66,5 @@ apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: EKSConfigTemplate
 metadata:
   name: capi-quickstart-eks-md-0
-  namespace: default
 spec:
   template: {}
